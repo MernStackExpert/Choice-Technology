@@ -22,6 +22,7 @@ export default function ThreeBackground() {
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
+      
       for (let i = 0; i < 3; i++) {
         particles.push(new Particle(mouse.x, mouse.y));
       }
@@ -79,12 +80,12 @@ export default function ThreeBackground() {
     }
 
     const animate = () => {
-      ctx.fillStyle = "rgba(10, 10, 10, 0.2)";
+      ctx.fillStyle = "rgba(10, 10, 10, 0.15)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       ctx.fillStyle = "white";
       stars.forEach(star => {
-        ctx.globalAlpha = 0.35;
+        ctx.globalAlpha = 0.4;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
@@ -92,9 +93,13 @@ export default function ThreeBackground() {
         if (star.y > canvas.height) star.y = 0;
       });
 
+      const isMobile = canvas.width < 768;
+
       ctx.save();
       ctx.globalAlpha = 0.12;
-      ctx.font = "600 56px Poppins, sans-serif";
+      ctx.font = isMobile
+        ? "600 36px Poppins, sans-serif"
+        : "600 56px Poppins, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.shadowBlur = 0;
