@@ -104,7 +104,6 @@ export default function ThreeBackground() {
       ctx.textBaseline = "middle";
       ctx.shadowBlur = 0;
       ctx.fillStyle = "#ffffff";
-      ctx.fillText("Choice Technology", canvas.width / 2, canvas.height / 2);
       ctx.restore();
 
       for (let i = 0; i < particles.length; i++) {
