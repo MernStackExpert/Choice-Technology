@@ -1,6 +1,8 @@
 import HeroSection from "@/Components/Home/Hero/HeroSection";
 import MissionVision from "@/Components/Home/MissionVision/MissionVision";
+import ProcessFAQ from "@/Components/Home/ProcessFAQ/ProcessFAQ";
 import Services from "@/Components/Home/Services/Services";
+import Stats from "@/Components/Home/Stats/Stats";
 import TechStack from "@/Components/Home/TechStack/TechStack";
 import WhyChooseUs from "@/Components/Home/WhyChooseUs/WhyChooseUs";
 import WorkingProcess from "@/Components/Home/WorkingProcess/WorkingProcess";
@@ -14,5 +16,7 @@ export default function Home() {
     <WorkingProcess/>
     <TechStack/>
     <MissionVision/>
+    <ProcessFAQ/>
+    <Stats/>
   </div>;
 }
