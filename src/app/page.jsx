@@ -1,5 +1,7 @@
 import HeroSection from "@/Components/Home/Hero/HeroSection";
 import MissionVision from "@/Components/Home/MissionVision/MissionVision";
+import Newsletter from "@/Components/Home/Newsletter/Newsletter";
+import Pricing from "@/Components/Home/Pricing/Pricing";
 import ProcessFAQ from "@/Components/Home/ProcessFAQ/ProcessFAQ";
 import Services from "@/Components/Home/Services/Services";
 import Stats from "@/Components/Home/Stats/Stats";
@@ -18,5 +20,7 @@ export default function Home() {
     <MissionVision/>
     <ProcessFAQ/>
     <Stats/>
+    <Pricing/>
+    <Newsletter/>
   </div>;
 }
