@@ -1,3 +1,4 @@
+import FreeService from "@/Components/Home/FreeService/FreeService";
 import HeroSection from "@/Components/Home/Hero/HeroSection";
 import MissionVision from "@/Components/Home/MissionVision/MissionVision";
 import Newsletter from "@/Components/Home/Newsletter/Newsletter";
@@ -13,14 +14,16 @@ import Image from "next/image";
 export default function Home() {
   return <div>
     <HeroSection/>
+    <FreeService/>
     <Services/>
     <WhyChooseUs/>
     <WorkingProcess/>
-    <TechStack/>
+    {/* <TechStack/> */}
     <MissionVision/>
     <ProcessFAQ/>
     <Stats/>
     <Pricing/>
     <Newsletter/>
+
   </div>;
 }

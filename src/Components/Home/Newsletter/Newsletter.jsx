@@ -3,11 +3,11 @@ import NewsletterContent from "./NewsletterContent";
 
 export default function Newsletter() {
   return (
-    <section id="contact" className="relative z-10 py-24 px-6">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+    <section id="contact" className="relative z-10 py-24 px-4 md:px-6 overflow-hidden">
+      <div className="absolute top-1/4 -left-20 w-72 h-72 bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
       
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <NewsletterContent />
       </div>
     </section>
