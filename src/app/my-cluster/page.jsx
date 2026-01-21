@@ -26,7 +26,7 @@ export default function MyClusterLanding() {
 
   return (
     <div className="relative min-h-screen">
-      <div className="max-w-7xl mx-auto w-full relative z-10 pt-44 pb-20 px-6">
+      <div className="max-w-7xl mx-auto w-full relative z-10 pt-20 pb-20 px-6">
         <header className="text-center mb-32">
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}

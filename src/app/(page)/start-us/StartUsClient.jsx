@@ -5,16 +5,11 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { 
   User, Mail, Phone, MapPin, Facebook, 
-  MessageSquare, ChevronDown, Check, Zap, 
-  Globe, Shield, Rocket, Link 
+  MessageSquare, ChevronDown, Zap, Link 
 } from "lucide-react";
 import toast from "react-hot-toast";
-
-const plans = [
-  { id: "custom", name: "Custom Web Build", price: "Custom", icon: <Rocket className="text-cyan-400" />, color: "#22d3ee" },
-  { id: "subscription", name: "Managed Subscription", price: "$5/mo", icon: <Globe className="text-purple-500" />, color: "#a855f7" },
-  { id: "enterprise", name: "Enterprise Partnership", price: "Equity", icon: <Shield className="text-green-400" />, color: "#4ade80" },
-];
+import axiosInstance from "@/utils/axiosInstance";
+import PricingContent from "@/Components/Home/Pricing/PricingContent";
 
 const ErrorMsg = ({ message }) => (
   <motion.p 
@@ -28,16 +23,31 @@ const ErrorMsg = ({ message }) => (
 
 export default function StartUsClient() {
   const [selectedPlan, setSelectedPlan] = useState("subscription");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Verified Customer Data:", { ...data, plan: selectedPlan });
-    toast.success("Application Received! Choice Technology will verify your details.");
-    reset();
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    const payload = { ...data, plan: selectedPlan };
+
+    try {
+      const response = await axiosInstance.post("/startup-message", payload);
+      
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Application Received! Choice Technology will verify your details.");
+        reset();
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-6">
       <header className="text-center mb-16">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
@@ -49,31 +59,19 @@ export default function StartUsClient() {
         <p className="text-gray-400 italic">Complete the verified form to join Choice Technology.</p>
       </header>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
-        <div className="space-y-6">
-          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Select Package</label>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map((plan) => (
-              <div
-                key={plan.id}
-                onClick={() => setSelectedPlan(plan.id)}
-                className={`relative p-6 rounded-3xl border cursor-pointer transition-all duration-300 ${
-                  selectedPlan === plan.id 
-                  ? "bg-white/10 border-cyan-500 shadow-[0_0_30px_rgba(34,211,238,0.2)]" 
-                  : "bg-white/5 border-white/10"
-                }`}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div className="p-3 rounded-2xl bg-white/5">{plan.icon}</div>
-                  {selectedPlan === plan.id && <div className="bg-cyan-500 rounded-full p-1"><Check size={12} className="text-black" /></div>}
-                </div>
-                <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-                <p className="text-cyan-400 font-mono text-sm">{plan.price}</p>
-              </div>
-            ))}
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
+        {/* Package Selection Section */}
+        <div className="space-y-8">
+          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
+            Select Your Business Model
+          </label>
+          <PricingContent 
+            selectedPlan={selectedPlan} 
+            onSelect={setSelectedPlan} 
+          />
         </div>
 
+        {/* User Information Form */}
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -163,8 +161,12 @@ export default function StartUsClient() {
               {errors.description && <ErrorMsg message={errors.description.message} />}
             </div>
 
-            <button type="submit" className="w-full py-5 bg-white text-black rounded-2xl font-black text-xl hover:bg-cyan-400 transition-all flex items-center justify-center gap-3 cursor-pointer">
-              Launch Project <Zap size={20} />
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className={`w-full py-5 bg-white text-black rounded-2xl font-black text-xl hover:bg-cyan-400 transition-all flex items-center justify-center gap-3 cursor-pointer ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {isSubmitting ? "Processing..." : "Launch Project"} <Zap size={20} />
             </button>
           </div>
         </motion.div>

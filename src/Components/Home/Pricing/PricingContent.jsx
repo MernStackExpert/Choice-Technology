@@ -6,6 +6,7 @@ import { Check, Code2, Globe, Handshake } from "lucide-react";
 
 const plans = [
   {
+    id: "custom",
     name: "Custom Web Build",
     price: "Custom",
     icon: <Code2 />,
@@ -21,6 +22,7 @@ const plans = [
     buttonText: "Request Quote",
   },
   {
+    id: "subscription",
     name: "Managed Subscription",
     price: "$5/mo",
     icon: <Globe />,
@@ -37,6 +39,7 @@ const plans = [
     buttonText: "Start Subscription",
   },
   {
+    id: "enterprise",
     name: "Enterprise",
     price: "Partnership",
     icon: <Handshake />,
@@ -53,7 +56,7 @@ const plans = [
   },
 ];
 
-export default function PricingContent() {
+export default function PricingContent({ selectedPlan, onSelect }) {
   return (
     <div className="space-y-16">
       <header className="text-center">
@@ -68,17 +71,24 @@ export default function PricingContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans.map((plan, i) => (
           <motion.div
-            key={i}
+            key={plan.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2 }}
             viewport={{ once: true }}
-            className={`relative group p-[1px] rounded-3xl overflow-hidden ${
-              plan.popular ? "scale-105 z-20" : ""
+            onClick={() => onSelect && onSelect(plan.id)}
+            className={`relative group p-[1px] rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${
+              plan.popular ? "md:scale-105 z-20" : ""
+            } ${
+              selectedPlan === plan.id 
+                ? "ring-2 ring-white/20 shadow-[0_0_40px_rgba(255,255,255,0.1)]" 
+                : "opacity-80 hover:opacity-100"
             }`}
           >
             <div
-              className="absolute inset-[-100%] animate-[spin_6s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity"
+              className={`absolute inset-[-100%] animate-[spin_6s_linear_infinite] transition-opacity duration-500 ${
+                selectedPlan === plan.id ? "opacity-100" : "opacity-30 group-hover:opacity-100"
+              }`}
               style={{
                 background: `conic-gradient(from 0deg, transparent 0%, transparent 40%, ${plan.color} 50%, transparent 60%, transparent 100%)`,
               }}
@@ -91,8 +101,14 @@ export default function PricingContent() {
                 </span>
               )}
 
+              {selectedPlan === plan.id && (
+                <div className="absolute top-4 left-4 bg-cyan-500 rounded-full p-1 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                  <Check size={12} className="text-black" />
+                </div>
+              )}
+
               <div
-                className="mb-6 p-3 w-fit bg-white/5 rounded-2xl text-2xl"
+                className="mb-6 p-3 w-fit bg-white/5 rounded-2xl text-2xl transition-transform duration-500 group-hover:scale-110"
                 style={{ color: plan.color }}
               >
                 {plan.icon}
@@ -121,16 +137,16 @@ export default function PricingContent() {
                 ))}
               </ul>
 
-              <button
-                className="w-full py-4 rounded-xl font-bold transition-all active:scale-95 cursor-pointer hover:brightness-125 shadow-sm"
+              <div
+                className="w-full py-4 rounded-xl font-bold text-center transition-all duration-300"
                 style={{
-                  backgroundColor: `${plan.color}15`,
-                  color: plan.color,
+                  backgroundColor: selectedPlan === plan.id ? plan.color : `${plan.color}15`,
+                  color: selectedPlan === plan.id ? "#000" : plan.color,
                   border: `1px solid ${plan.color}30`,
                 }}
               >
-                {plan.buttonText}
-              </button>
+                {selectedPlan === plan.id ? "Selected Model" : plan.buttonText}
+              </div>
             </div>
           </motion.div>
         ))}

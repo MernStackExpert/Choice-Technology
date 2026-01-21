@@ -11,34 +11,8 @@ const steps = [
   { title: "Quality & Launch", desc: "Testing, SEO optimization, and final deployment.", icon: <Rocket /> },
 ];
 
-const faqs = [
-  { 
-    q: "How long does a project take to complete?", 
-    a: "It depends on the complexity. Simple projects take max 7 days, medium-sized projects take up to 2 weeks, and high-level complex applications take around 4 weeks." 
-  },
-  { 
-    q: "Do you provide post-launch support?", 
-    a: "Yes, we provide 24/7 technical support and regular maintenance to ensure your website runs smoothly after launch." 
-  },
-  { 
-    q: "Will the website be SEO friendly?", 
-    a: "Absolutely. We build all our projects with Next.js and high-end SEO practices to ensure maximum visibility on Google." 
-  },
-  { 
-    q: "Can you integrate payment gateways like SSLCommerz?", 
-    a: "Yes, we specialize in integrating secure payment systems like SSLCommerz and Stripe for e-commerce solutions." 
-  },
-  { 
-    q: "Is the source code provided after completion?", 
-    a: "Yes, once the project is finalized, we provide full access to the source code and necessary documentation." 
-  },
-  { 
-    q: "Can you convert Figma designs to React/Next.js?", 
-    a: "Yes, we can transform any Figma or XD design into a pixel-perfect, responsive, and high-performance website." 
-  }
-];
+export default function ProcessFAQContent({ faqs }) {
 
-export default function ProcessFAQContent() {
   const [activeFaq, setActiveFaq] = useState(null);
 
   return (
@@ -95,14 +69,14 @@ export default function ProcessFAQContent() {
         </header>
 
         <div className="space-y-4">
-          {faqs.map((faq, i) => (
+          {faqs?.map((faq, i) => (
             <div key={i} className="group relative p-[1px] rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md">
               <button 
                 onClick={() => setActiveFaq(activeFaq === i ? null : i)}
                 className="w-full p-6 flex justify-between items-center text-left relative z-10 transition-colors cursor-pointer"
               >
                 <span className={`text-lg font-semibold transition-colors ${activeFaq === i ? "text-cyan-400" : "text-gray-200"}`}>
-                  {faq.q}
+                  {faq.question}
                 </span>
                 <ChevronDown className={`text-gray-500 transition-transform duration-300 ${activeFaq === i ? "rotate-180 text-cyan-400" : ""}`} />
               </button>
@@ -117,7 +91,7 @@ export default function ProcessFAQContent() {
                     className="overflow-hidden relative z-10"
                   >
                     <p className="p-6 pt-0 text-gray-400 leading-relaxed border-t border-white/5 font-medium italic">
-                      {faq.a}
+                      {faq.answer}
                     </p>
                   </motion.div>
                 )}
