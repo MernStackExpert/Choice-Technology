@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Check, Code2, Globe, Handshake } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const plans = [
   {
@@ -56,17 +57,29 @@ const plans = [
   },
 ];
 
-export default function PricingContent({ selectedPlan, onSelect }) {
+export default function PricingContent({ selectedPlan, onSelect, isOnboarding = false }) {
+  const router = useRouter();
+
+  const handlePlanClick = (planId) => {
+    if (isOnboarding) {
+      onSelect(planId);
+    } else {
+      router.push(`/start-us?plan=${planId}`);
+    }
+  };
+
   return (
     <div className="space-y-16">
-      <header className="text-center">
-        <h2 className="text-4xl md:text-6xl font-black text-white mb-4 font-sans">
-          Business <span className="text-cyan-400 italic">Models</span>
-        </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto italic">
-          Choose the perfect model to scale your digital presence with Choice Technology.
-        </p>
-      </header>
+      {!isOnboarding && (
+        <header className="text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-4 font-sans">
+            Business <span className="text-cyan-400 italic">Models</span>
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto italic">
+            Choose the perfect model to scale your digital presence with Choice Technology.
+          </p>
+        </header>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans.map((plan, i) => (
@@ -76,7 +89,7 @@ export default function PricingContent({ selectedPlan, onSelect }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2 }}
             viewport={{ once: true }}
-            onClick={() => onSelect && onSelect(plan.id)}
+            onClick={() => handlePlanClick(plan.id)}
             className={`relative group p-[1px] rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${
               plan.popular ? "md:scale-105 z-20" : ""
             } ${
