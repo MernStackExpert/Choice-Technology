@@ -58,9 +58,9 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <button className="btn btn-primary btn-sm rounded-full px-6 font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-            Meet US
-          </button>
+          <Link href="/start-us" className="btn btn-primary btn-sm rounded-full px-6 font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+            Start US
+          </Link>
         </div>
 
         <button
@@ -91,7 +91,7 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <button className="btn btn-primary w-full">Hire Us</button>
+              <Link href="/start-us" className="btn btn-primary w-full">Start Us</Link>
             </div>
           </motion.div>
         )}
