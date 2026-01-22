@@ -4,6 +4,7 @@ import React from "react";
 import Services from "@/Components/Home/Services/Services";
 import { motion } from "framer-motion";
 import PricingContent from "@/Components/Home/Pricing/PricingContent";
+import Link from "next/link";
 
 export default function ServicesClient() {
   return (
@@ -36,12 +37,12 @@ export default function ServicesClient() {
             Whether it's a free build or a massive enterprise system, we ensure top-tier quality for Choice Technology clients.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-10 py-4 bg-cyan-500 text-black rounded-2xl font-bold hover:bg-cyan-400 transition-all cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+            <Link href="/contact" className="px-10 py-4 bg-cyan-500 text-black rounded-2xl font-bold hover:bg-cyan-400 transition-all cursor-pointer shadow-[0_0_20px_rgba(34,211,238,0.3)]">
               Contact Sales
-            </button>
-            <button className="px-10 py-4 border border-white/10 text-white rounded-2xl font-bold hover:bg-white/5 transition-all cursor-pointer">
-              View Portfolio
-            </button>
+            </Link>
+            <Link href="/start-us" className="px-10 py-4 border border-white/10 text-white rounded-2xl font-bold hover:bg-white/5 transition-all cursor-pointer">
+              START US NOW
+            </Link>
           </div>
         </motion.div>
       </section>

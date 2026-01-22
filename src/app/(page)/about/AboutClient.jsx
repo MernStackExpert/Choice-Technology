@@ -12,6 +12,7 @@ import {
   Zap, 
   Globe 
 } from "lucide-react";
+import Link from "next/link";
 
 const expertise = [
   {
@@ -99,7 +100,7 @@ export default function AboutClient() {
         </div>
 
         {/* Specialized Business Model Details */}
-        <div className="bg-[#0d0d0d]/80 border border-white/5 rounded-[3rem] p-12 md:p-20 mb-40 backdrop-blur-xl">
+        <div className="bg-[#0d0d0d]/40 border border-white/5 rounded-[3rem] p-12 md:p-20 mb-40 backdrop-blur-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl font-bold text-white mb-8">How We Work</h2>
@@ -140,9 +141,9 @@ export default function AboutClient() {
             Building the next <br /> 
             chapter of your brand.
           </h2>
-          <button className="px-12 py-5 bg-white text-black rounded-full font-black text-lg hover:bg-cyan-400 hover:scale-105 transition-all cursor-pointer shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <Link href="/start-us" className="px-12 py-5 bg-white text-black rounded-full font-black text-lg hover:bg-cyan-400 hover:scale-105 transition-all cursor-pointer shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             Start a Project with Choice Technology
-          </button>
+          </Link>
         </motion.div>
 
       </div>
