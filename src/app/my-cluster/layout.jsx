@@ -1,15 +1,19 @@
-import ClusterNavbar from "@/Components/Cluster/ClusterNavbar";
+import ClusterClientWrapper from "@/Components/Cluster/ClusterClientWrapper";
 import AuthProvider from "@/Provider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 
+export const metadata = {
+  title: "My Cluster - Choice Technology",
+  description: "Manage your digital instances and cluster settings.",
+};
+
 export default function ClusterLayout({ children }) {
   return (
-    <div className="relative min-h-screen">
-      <AuthProvider>
-        <ClusterNavbar />
-        <main className="pt-32">{children}</main>
-        <Toaster />
-      </AuthProvider>
-    </div>
+    <AuthProvider>
+      <ClusterClientWrapper>
+        {children}
+      </ClusterClientWrapper>
+      <Toaster position="bottom-right" />
+    </AuthProvider>
   );
 }
