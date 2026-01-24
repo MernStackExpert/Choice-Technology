@@ -80,6 +80,7 @@ const AuthProvider = ({ children }) => {
     user,
     loading,
     dbUser,
+    setDbUser,
     setLoading,
     createUser,
     signInUser,
