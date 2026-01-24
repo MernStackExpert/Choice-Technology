@@ -3,8 +3,8 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation"; 
 import MyClusterLanding from "@/app/my-cluster/page";
-import Loading from "@/components/shared/Loading";
 import { AuthContext } from "@/Provider/AuthContext";
+import Loading from "@/Shared/Loading";
 const OnFormWrapper = () => {
   const { user, dbUser, loading } = useContext(AuthContext);
   const router = useRouter();
