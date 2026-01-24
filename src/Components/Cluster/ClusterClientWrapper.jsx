@@ -17,7 +17,7 @@ const ClusterClientWrapper = ({ children }) => {
   if (loading) return null;
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white">
+    <div className="relative min-h-screen text-white">
       <ClusterNavbar />
       
       {dbUser && !dbUser.onForm && (
@@ -37,7 +37,7 @@ const ClusterClientWrapper = ({ children }) => {
               
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 px-5 py-2 bg-yellow-500 text-black rounded-xl text-xs font-black uppercase transition-all hover:bg-yellow-400"
+                className="flex items-center gap-2 px-5 py-2 bg-yellow-500 text-black rounded-xl text-xs font-black uppercase transition-all hover:bg-yellow-400 cursor-pointer" 
               >
                 Submit Form <ChevronRight size={14} />
               </button>
