@@ -20,14 +20,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <div className="flex flex-col min-h-screen relative">
           {/* Global 3D Background */}
           <div className="fixed inset-0 z-0">
             <ThreeBackground />
           </div>
-
-       
           <div className="relative z-10 flex flex-col min-h-screen">
             {children}
           </div>

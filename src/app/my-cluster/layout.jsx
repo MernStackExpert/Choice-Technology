@@ -1,4 +1,5 @@
 import ClusterClientWrapper from "@/Components/Cluster/ClusterClientWrapper";
+import PrivateRoute from "@/Privet_Route/PrivateRoute";
 import AuthProvider from "@/Provider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 
@@ -10,9 +11,9 @@ export const metadata = {
 export default function ClusterLayout({ children }) {
   return (
     <AuthProvider>
-      <ClusterClientWrapper>
-        {children}
-      </ClusterClientWrapper>
+      <PrivateRoute>
+        <ClusterClientWrapper>{children}</ClusterClientWrapper>
+      </PrivateRoute>
       <Toaster position="bottom-right" />
     </AuthProvider>
   );

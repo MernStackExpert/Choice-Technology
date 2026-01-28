@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -10,9 +10,9 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "@/config/firebase.config";
 import { AuthContext } from "./AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
+import { auth } from "@/config/firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -28,7 +28,14 @@ const AuthProvider = ({ children }) => {
 
   const signInUser = (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        setLoading(false);
+        throw error;
+      });
   };
 
   const signInWithGoogle = () => {
@@ -48,23 +55,14 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-
       if (currentUser) {
-        const userData = {
-          firebaseUid: currentUser.uid,
-          email: currentUser.email,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-        };
-
         try {
-          const res = await axiosInstance.post("auth/user/create", userData);
-          if (res.status === 201 || res.status === 200) {
-            setDbUser(res.data.result || res.data);
-            console.log("User synced with DB");
+          const res = await axiosInstance.get(`auth/user/${currentUser.uid}`);
+          if (res.data) {
+            setDbUser(res.data);
           }
         } catch (error) {
-          console.error("Error creating user in DB", error);
+          // console.error("User not found in DB yet");
         } finally {
           setLoading(false);
         }
@@ -73,7 +71,6 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     });
-
     return () => unsubscribe();
   }, []);
   const authInfo = {
