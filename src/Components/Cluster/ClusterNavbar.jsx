@@ -16,6 +16,7 @@ export default function ClusterNavbar() {
   const navLinks = [
     { name: "Dashboard", path: "/my-cluster/dashboard", icon: <LayoutDashboard size={18} /> },
     { name: "Instances", path: "/my-cluster/instances", icon: <Zap size={18} /> },
+    { name: "Add Order", path: "/my-cluster/order", icon: <Zap size={18} /> },
     { name: "Settings", path: "/my-cluster/settings", icon: <Settings size={18} /> },
   ];
 

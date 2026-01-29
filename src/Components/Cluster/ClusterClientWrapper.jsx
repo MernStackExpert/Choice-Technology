@@ -2,23 +2,27 @@
 
 import React, { useContext, useState } from "react";
 import { AlertTriangle, ChevronRight } from "lucide-react";
+import { usePathname } from "next/navigation";
 import ClusterNavbar from "./ClusterNavbar";
 import OnboardingModal from "./OnboardingModal";
 import { AuthContext } from "@/Provider/AuthContext";
 
 const ClusterClientWrapper = ({ children }) => {
   const context = useContext(AuthContext);
+  const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!context) return null;
 
-  const { dbUser} = context;
+  const { dbUser } = context;
+
+  const isDashboard = pathname.includes("/dashboard");
 
   return (
     <div className="relative min-h-screen text-white">
-      <ClusterNavbar />
+      {!isDashboard && <ClusterNavbar />}
 
-      {dbUser && !dbUser.onForm && (
+      {!isDashboard && dbUser && !dbUser.onForm && (
         <div className="fixed top-28 left-0 w-full z-40 px-4 md:px-8">
           <div className="max-w-7xl mx-auto group relative overflow-hidden p-[1px] rounded-2xl transition-all">
             <div className="absolute inset-[-100%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_0deg,transparent,transparent,#facc15,transparent,transparent)] opacity-40" />
@@ -49,7 +53,11 @@ const ClusterClientWrapper = ({ children }) => {
       )}
 
       <main
-        className={`${dbUser && !dbUser.onForm ? "pt-52" : "pt-32"} px-4 md:px-8 max-w-7xl mx-auto`}
+        className={
+          isDashboard
+            ? "w-full h-full" 
+            : `${dbUser && !dbUser.onForm ? "pt-52" : "pt-32"} px-4 md:px-8 max-w-7xl mx-auto`
+        }
       >
         {children}
       </main>

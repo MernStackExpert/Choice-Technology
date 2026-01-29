@@ -1,5 +1,9 @@
 import ClusterHero from "@/Components/Cluster_Home/ClusterHero/ClusterHero";
+import MotivationalSection from "@/Components/Cluster_Home/MotivationalSection/MotivationalSection";
 import NodeStatus from "@/Components/Cluster_Home/NodeStatus/NodeStatus";
+import NodeTracker from "@/Components/Cluster_Home/NodeTracker/NodeTracker";
+import SecurityAudit from "@/Components/Cluster_Home/SecurityAudit/SecurityAudit";
+import ServiceRoadmap from "@/Components/Cluster_Home/ServiceRoadmap/ServiceRoadmap";
 
 // This is a Server Component for SEO
 export default function MyClusterPage() {
@@ -8,11 +12,19 @@ export default function MyClusterPage() {
       {/* Server side rendered hero */}
       <ClusterHero />
 
-      <div className="max-w-7xl mx-auto px-6 space-y-20 pb-32">
         {/* Client side logic wrapped inside this component */}
         <NodeStatus />
 
-      </div>
+        <NodeTracker/>
+
+        <SecurityAudit/>
+
+        <ServiceRoadmap/>
+
+        <MotivationalSection/>
+
+
+      
     </main>
   );
 }
