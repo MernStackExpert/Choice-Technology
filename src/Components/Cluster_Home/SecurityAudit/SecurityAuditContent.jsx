@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AuthContext } from "@/Provider/AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
-import { ShieldCheck, Lock, Globe, Fingerprint, Eye, Server } from "lucide-react";
+import { ShieldCheck, Lock, Globe, Fingerprint, Server } from "lucide-react";
 
 export default function SecurityAuditContent() {
   const { user, dbUser } = useContext(AuthContext);
@@ -28,6 +28,8 @@ export default function SecurityAuditContent() {
     fetchOrders();
   }, [user]);
 
+  const activeNodes = orders.filter(o => o.status === 'active').slice(0, 4);
+
   const avgIntegrity = orders.length > 0 
     ? (orders.reduce((acc, curr) => acc + (curr.progress || 0), 0) / orders.length).toFixed(0) 
     : 0;
@@ -42,7 +44,6 @@ export default function SecurityAuditContent() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Real Integrity Score Circle */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -105,19 +106,22 @@ export default function SecurityAuditContent() {
             <Server size={14} className="text-gray-500" />
           </div>
           <div className="space-y-4">
-            {orders.slice(0, 3).map((order, i) => (
-              <div key={i} className="flex flex-col gap-1 border-l-2 border-cyan-500/30 pl-4 py-1">
+            {activeNodes.map((node, i) => (
+              <div key={i} className="flex flex-col gap-1 border-l-2 border-emerald-500/30 pl-4 py-1 hover:bg-white/[0.02] transition-colors rounded-r-xl">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-bold text-white tracking-tighter uppercase">{order.orderTitle}</span>
-                  <span className={`text-[8px] font-black ${order.status === 'active' ? 'text-emerald-500' : 'text-amber-500'}`}>
-                    {order.status.toUpperCase()}
+                  <span className="text-[10px] font-bold text-white tracking-tighter uppercase truncate mr-2">{node.orderTitle}</span>
+                  <span className="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                    {node.status.toUpperCase()}
                   </span>
                 </div>
-                <p className="text-[9px] font-mono text-gray-600 truncate uppercase">CID: {order.orderId}</p>
+                <p className="text-[9px] font-mono text-gray-600 truncate uppercase">CID: {node.orderId}</p>
               </div>
             ))}
-            {orders.length === 0 && (
-              <p className="text-[10px] text-gray-600 italic uppercase">No active data streams found.</p>
+            {activeNodes.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-6 opacity-40">
+                <Server size={24} className="text-gray-600 mb-2" />
+                <p className="text-[9px] text-gray-600 font-black uppercase tracking-widest">No Active Nodes</p>
+              </div>
             )}
           </div>
         </motion.div>

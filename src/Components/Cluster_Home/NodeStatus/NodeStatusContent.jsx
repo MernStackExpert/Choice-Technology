@@ -7,23 +7,23 @@ import axiosInstance from "@/utils/axiosInstance";
 import { AuthContext } from "@/Provider/AuthContext";
 
 export default function NodeStatusContent() {
-  const { user, dbUser } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext); 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
       const uid = user?.uid; 
-      
       if (!uid) return;
 
       try {
         const res = await axiosInstance.get(`/orders/user/${uid}`); 
         if (res.data?.success) {
-          setOrders(res.data.data || []);
+          const filteredData = (res.data.data || []).filter(o => o.status !== "cancelled");
+          setOrders(filteredData);
         }
       } catch (error) {
-        console.error("Failed to load node data:", error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -32,7 +32,6 @@ export default function NodeStatusContent() {
     fetchOrders();
   }, [user]);
 
-  // Calculations
   const activeNodes = orders.filter(o => o.status === "active").length;
   const pendingNodes = orders.filter(o => o.status === "pending").length;
   const totalDue = orders.reduce((acc, curr) => acc + (curr.unPaidAmount || 0), 0);

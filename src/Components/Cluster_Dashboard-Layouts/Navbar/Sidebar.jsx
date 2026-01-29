@@ -16,7 +16,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   const { dbUser, signOutUser } = useContext(AuthContext);
 
-  const role = dbUser?.role || "user";
+  const role = dbUser?.data?.role || "user";
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -37,7 +37,7 @@ const Sidebar = () => {
         { name: "Order History", path: "/my-cluster/dashboard/order-history" }
       ]
     },
-    { name: "Payments", icon: <CreditCard size={20} />, path: "/my-cluster/dashboard/payment-history" },
+    { name: "Urgent Payments", icon: <CreditCard size={20} />, path: "/my-cluster/dashboard/urgent-payments" },
   ];
 
   const adminLinks = [

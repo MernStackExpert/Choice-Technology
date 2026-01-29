@@ -19,7 +19,10 @@ export default function NodeTrackerContent() {
       try {
         const res = await axiosInstance.get(`/orders/user/${uid}`);
         if (res.data?.success) {
-          setOrders(res.data.data || []);
+          const filteredOrders = (res.data.data || [])
+            .filter(order => order.status !== "cancelled")
+            .slice(0, 4);
+          setOrders(filteredOrders);
         }
       } catch (error) {
         console.error(error);

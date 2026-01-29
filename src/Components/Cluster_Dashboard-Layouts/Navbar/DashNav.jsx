@@ -33,12 +33,12 @@ const DashNav = () => {
           
           <div className="flex items-center gap-3 pl-4 border-l border-cyan-500/10">
             <div className="text-right hidden sm:block">
-              <p className="text-xs font-bold text-white uppercase tracking-tight">{dbUser?.name || "MD NIROB ISLAM"}</p>
-              <p className="text-[9px] text-cyan-500/60 font-mono tracking-tighter uppercase">{dbUser?.role || "USER"}</p>
+              <p className="text-xs font-bold text-white uppercase tracking-tight">{dbUser?.data?.name || "MD NIROB ISLAM"}</p>
+              <p className="text-[9px] text-cyan-500/60 font-mono tracking-tighter uppercase">{dbUser?.data?.role || "USER"}</p>
             </div>
             <div className="w-9 h-9 rounded-full border border-cyan-500/30 p-0.5 shadow-[0_0_15px_rgba(34,211,238,0.2)] overflow-hidden">
               <img 
-                src={dbUser?.photoURL || user?.photoURL || "/default-avatar.png"} 
+                src={dbUser?.data?.photoURL || user?.photoURL || "/default-avatar.png"} 
                 alt="profile" 
                 className="w-full h-full rounded-full object-cover"
               />

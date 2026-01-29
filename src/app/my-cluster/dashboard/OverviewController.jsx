@@ -3,7 +3,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "@/Provider/AuthContext";
 import UserOverview from "@/Components/Cluster_Dashboard-Layouts/Overview_Controller/UserOverview";
-// import AdminOverview from "./AdminOverview";
+import AdminOverview from "@/Components/Cluster_Dashboard-Layouts/Overview_Controller/AdminOverview";
 
 const OverviewController = () => {
   const { dbUser, loading } = useContext(AuthContext);
@@ -19,11 +19,11 @@ const OverviewController = () => {
     );
   }
 
-  const role = dbUser?.role || "user";
+  const role = dbUser?.data?.role || "user";
 
   return (
     <>
-      {role === "admin" ? "" : <UserOverview />}
+      {role === "admin" ? <AdminOverview/> : <UserOverview />}
     </>
   );
 };
