@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +13,7 @@ import {
   Link as LinkIcon,
   UploadCloud,
   Loader2,
+  ShieldAlert,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -21,7 +22,7 @@ import { AuthContext } from "@/Provider/AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
 
 const RegisterPage = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, dbUser, loading: authLoading } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -34,6 +35,18 @@ const RegisterPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
   const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (!authLoading) {
+      const isAdmin = dbUser?.data?.role === "admin";
+      const isDevEmail = dbUser?.data?.email === "mdnirob30k@gmail.com";
+
+      if (!isAdmin && !isDevEmail) {
+        toast.error("Access Denied: Administrative Clearance Required");
+        router.replace("/my-cluster");
+      }
+    }
+  }, [dbUser, authLoading, router]);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -78,8 +91,8 @@ const RegisterPage = () => {
       const res = await axiosInstance.post("auth/user/create", userData);
 
       if (res.status === 201 || res.status === 200) {
-        toast.success("Registration Successful & Credentials Sent!");
-        router.push("/my-cluster");
+        toast.success("Identity Created Successfully!");
+        router.push("/my-cluster/dashboard/admin/users");
       }
     } catch (error) {
       toast.error(error.message);
@@ -87,6 +100,18 @@ const RegisterPage = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin text-blue-500" size={40} />
+      </div>
+    );
+  }
+
+  if (!dbUser || (dbUser.data?.role !== "admin" && dbUser.data?.email !== "mdnirob30k@gmail.com")) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-transparent relative overflow-hidden">
@@ -97,11 +122,16 @@ const RegisterPage = () => {
         className="max-w-xl w-full backdrop-blur-xl bg-white/10 border border-white/20 p-8 md:p-10 rounded-[2.5rem] shadow-2xl z-10 my-10"
       >
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent mb-2 uppercase">
-            Create Identity
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-blue-600/20 rounded-2xl border border-blue-500/30">
+              <ShieldAlert className="text-blue-400" size={32} />
+            </div>
+          </div>
+          <h2 className="text-4xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent mb-2 uppercase tracking-tighter">
+            Admin Portal
           </h2>
           <p className="text-blue-100/60 text-[10px] font-bold tracking-[0.3em] uppercase">
-            Join Choice Technology Ecosystem
+            Create Authorized Identity
           </p>
         </div>
 
@@ -160,10 +190,7 @@ const RegisterPage = () => {
                   >
                     <div className="flex items-center justify-center w-full h-14 border-2 border-dashed border-white/10 rounded-2xl bg-white/5">
                       {isUploading ? (
-                        <Loader2
-                          className="animate-spin text-blue-400"
-                          size={20}
-                        />
+                        <Loader2 className="animate-spin text-blue-400" size={20} />
                       ) : (
                         <span className="text-blue-200/30 text-[10px] font-bold uppercase tracking-widest">
                           Select profile image
@@ -201,9 +228,7 @@ const RegisterPage = () => {
                 />
               </div>
               {errors.name && (
-                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest">
-                  {errors.name.message}
-                </p>
+                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest">{errors.name.message}</p>
               )}
             </div>
 
@@ -213,10 +238,7 @@ const RegisterPage = () => {
                 <input
                   {...register("email", {
                     required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Invalid email address",
-                    },
+                    pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" },
                   })}
                   type="email"
                   placeholder="Email Address"
@@ -224,9 +246,7 @@ const RegisterPage = () => {
                 />
               </div>
               {errors.email && (
-                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest">
-                  {errors.email.message}
-                </p>
+                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest">{errors.email.message}</p>
               )}
             </div>
 
@@ -236,10 +256,7 @@ const RegisterPage = () => {
                 <input
                   {...register("password", {
                     required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Minimum 8 characters required",
-                    },
+                    minLength: { value: 8, message: "Minimum 8 characters required" },
                     pattern: {
                       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
                       message: "Must include Uppercase, Lowercase, and Number",
@@ -251,9 +268,7 @@ const RegisterPage = () => {
                 />
               </div>
               {errors.password && (
-                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest leading-relaxed">
-                  {errors.password.message}
-                </p>
+                <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest leading-relaxed">{errors.password.message}</p>
               )}
             </div>
           </div>
@@ -262,27 +277,11 @@ const RegisterPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             disabled={isSubmitting || isUploading}
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:shadow-blue-600/40 transition-all duration-300 disabled:opacity-50 cursor-pointer"
+            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 transition-all duration-300 disabled:opacity-50 cursor-pointer"
           >
-            {isSubmitting ? (
-              "Generating Node..."
-            ) : (
-              <>
-                Create Account <ArrowRight className="w-5 h-5" />
-              </>
-            )}
+            {isSubmitting ? "Generating Node..." : "Authorize Identity"} <ArrowRight className="w-5 h-5" />
           </motion.button>
         </form>
-
-        <p className="mt-8 text-center text-blue-200/40 text-[10px] font-bold uppercase tracking-widest">
-          Already part of the network?{" "}
-          <Link
-            href="/my-cluster/auth/login"
-            className="text-blue-400 font-black hover:underline ml-1"
-          >
-            Login
-          </Link>
-        </p>
       </motion.div>
     </div>
   );

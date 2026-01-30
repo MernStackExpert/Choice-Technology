@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { AuthContext } from "@/Provider/AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -19,13 +19,13 @@ export default function ManualPaymentContent({ orderId }) {
   const [errors, setErrors] = useState({});
 
   const paymentNumbers = [
-    { label: "bKash (Personal)", number: "017XXXXXXXX", type: "Bkash" },
-    { label: "Nagad (Personal)", number: "018XXXXXXXX", type: "Nagad" },
-    { label: "Rocket (Personal)", number: "019XXXXXXXX", type: "Rocket" }
+    { label: "bKash (Personal)", number: "01908716502", type: "Bkash" },
+    { label: "Nagad (Personal)", number: "01908716502", type: "Nagad" },
+    { label: "Rocket (Personal)", number: "01908716502", type: "Rocket" }
   ];
 
   const [formData, setFormData] = useState({
-    method: "Bkash",
+    method: paymentNumbers[0].type,
     paymentNumber: paymentNumbers[0].number,
     transactionId: "",
     senderNumber: "",
@@ -39,7 +39,10 @@ export default function ManualPaymentContent({ orderId }) {
         const res = await axiosInstance.get(`/orders/details/${orderId}`);
         if (res.data.success) {
           setOrder(res.data.data);
-          setFormData(prev => ({ ...prev, amountPaid: res.data.data.monthlyFee || res.data.data.totalAmount }));
+          setFormData(prev => ({ 
+            ...prev, 
+            amountPaid: res.data.data.monthlyFee || res.data.data.totalAmount 
+          }));
         }
       } catch (error) {
         console.error(error);
@@ -131,7 +134,7 @@ export default function ManualPaymentContent({ orderId }) {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-10">
-      <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all font-black uppercase text-[10px] tracking-widest group">
+      <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all font-black uppercase text-[10px] tracking-widest group cursor-pointer">
         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Cluster
       </button>
 
@@ -171,10 +174,15 @@ export default function ManualPaymentContent({ orderId }) {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Receiving Protocol</label>
                   <select 
+                    value={formData.paymentNumber}
                     className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs text-white outline-none focus:border-cyan-500 transition-all cursor-pointer"
                     onChange={(e) => {
                         const selected = paymentNumbers.find(p => p.number === e.target.value);
-                        setFormData({...formData, paymentNumber: e.target.value, method: selected.type});
+                        setFormData({
+                          ...formData, 
+                          paymentNumber: e.target.value, 
+                          method: selected.type
+                        });
                     }}
                   >
                     {paymentNumbers.map((p, idx) => (
@@ -241,6 +249,7 @@ export default function ManualPaymentContent({ orderId }) {
               </div>
 
               <button 
+                type="submit"
                 disabled={submitting || uploading}
                 className={`w-full py-5 rounded-2xl bg-cyan-500 text-black font-black uppercase tracking-[0.3em] text-[11px] flex items-center justify-center gap-3 transition-all cursor-pointer ${submitting || uploading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:scale-[1.01]'}`}
               >

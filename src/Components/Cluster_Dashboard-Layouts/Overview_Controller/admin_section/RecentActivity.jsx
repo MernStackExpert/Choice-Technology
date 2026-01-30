@@ -16,7 +16,7 @@ export default function RecentActivity({ latestOrders, latestPayments }) {
       >
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest text-cyan-400">Latest Nodes Initialized</h4>
-          <Link href="/my-cluster/admin/orders" className="text-[9px] font-black text-gray-600 hover:text-white uppercase transition-all">View All</Link>
+          <Link href="/my-cluster/dashboard/admin/orders/active-nodes" className="text-[9px] font-black text-gray-600 hover:text-white uppercase transition-all">View All</Link>
         </div>
         
         <div className="space-y-4">
@@ -48,7 +48,7 @@ export default function RecentActivity({ latestOrders, latestPayments }) {
       >
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest text-emerald-400">Incoming Credits</h4>
-          <Link href="/my-cluster/admin/payments" className="text-[9px] font-black text-gray-600 hover:text-white uppercase transition-all">Verify All</Link>
+          <Link href="/my-cluster/dashboard/admin/payments/pending-payments" className="text-[9px] font-black text-gray-600 hover:text-white uppercase transition-all">Verify All</Link>
         </div>
         
         <div className="space-y-4">

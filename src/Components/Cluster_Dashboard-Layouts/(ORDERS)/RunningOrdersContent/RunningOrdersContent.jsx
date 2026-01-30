@@ -3,8 +3,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Provider/AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
-import { Search, Eye, Activity, Terminal, ShieldCheck, ExternalLink } from "lucide-react";
+import { Search, Eye, Activity, Terminal, ShieldCheck, ExternalLink, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const RunningOrdersContent = () => {
   const { user } = useContext(AuthContext);
@@ -124,9 +125,9 @@ const RunningOrdersContent = () => {
                         <Eye size={14} />
                         <span className="text-[9px] font-black uppercase tracking-widest">Details</span>
                       </button>
-                      <button className="p-2.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl hover:bg-green-500 hover:text-black transition-all cursor-pointer shadow-lg shadow-green-500/5">
-                        <ExternalLink size={14} />
-                      </button>
+                        <Link href={`/my-cluster/dashboard/payment/${order._id}`} className="p-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-xl hover:bg-cyan-400 hover:text-black transition-all cursor-pointer">
+                          <Zap size={14} />
+                        </Link>
                     </div>
                   </td>
                 </tr>

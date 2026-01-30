@@ -90,8 +90,8 @@ const LoginPage = () => {
         </form>
 
         <div className="mt-8 text-center">
-          <Link href="/my-cluster/auth/register" className="text-blue-400 text-[10px] font-black uppercase tracking-widest hover:underline">
-            Request New Access Node <ArrowRight className="inline ml-1" size={12} />
+          <Link href="/my-cluster/auth/forgot-password" className="text-blue-400 text-[10px] font-black uppercase tracking-widest hover:underline">
+            FORGATE PASSWORD <ArrowRight className="inline ml-1" size={12} />
           </Link>
         </div>
       </motion.div>
