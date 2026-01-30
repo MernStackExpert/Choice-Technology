@@ -41,7 +41,7 @@ const Sidebar = () => {
   ];
 
   const adminLinks = [
-    { name: "Manage Users", icon: <Users size={20} />, path: "/my-cluster/dashboard/all-users" },
+    { name: "Manage Users", icon: <Users size={20} />, path: "/my-cluster/dashboard/admin/users" },
     { 
       name: "Node Control", 
       icon: <FileText size={20} />, 
