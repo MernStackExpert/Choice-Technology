@@ -46,12 +46,20 @@ const Sidebar = () => {
       name: "Node Control", 
       icon: <FileText size={20} />, 
       children: [
-        { name: "All Orders", path: "/my-cluster/dashboard/all-orders" },
-        { name: "Active Nodes", path: "/my-cluster/dashboard/active-nodes" },
-        { name: "Terminated", path: "/my-cluster/dashboard/cancelled-orders" }
+        { name: "All Orders", path: "/my-cluster/dashboard/admin/orders/all-orders" },
+        { name: "Active Nodes", path: "/my-cluster/dashboard/admin/orders/active-nodes" },
+        { name: "Terminated", path: "/my-cluster/dashboard/admin/orders/terminated-nodes" }
       ]
     },
-    { name: "Requests", icon: <Wallet size={20} />, path: "/my-cluster/dashboard/all-requests" },
+    { 
+      name: "Payment-Requests", 
+      icon: <Wallet size={20} />, 
+      children: [
+        { name: "Pending-Payments", path: "/my-cluster/dashboard/admin/payments/pending-payments" },
+        { name: "Active Nodes", path: "/my-cluster/dashboard/admin/orders/active-nodes" },
+        { name: "Terminated", path: "/my-cluster/dashboard/admin/orders/terminated-nodes" }
+      ]
+    },
   ];
 
   const menuItems = [
