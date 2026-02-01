@@ -168,14 +168,15 @@ export default function NodeTrackerContent() {
                 </p>
               </div>
             </div>
+            
             <div className="flex justify-end">
-              <button className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 transition-all text-[10px] font-black uppercase tracking-widest group/btn">
-                Access Node{" "}
+              <Link href={`/my-cluster/dashboard/my-order/${order._id}`} className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 transition-all text-[10px] font-black uppercase tracking-widest group/btn">
+                Access Node
                 <ExternalLink
                   size={14}
                   className="group-hover/btn:translate-x-1 transition-transform"
                 />
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>

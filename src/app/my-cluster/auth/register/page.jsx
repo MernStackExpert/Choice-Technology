@@ -14,19 +14,25 @@ import {
   UploadCloud,
   Loader2,
   ShieldAlert,
+  ArrowLeft,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import axios from "axios";
 import { AuthContext } from "@/Provider/AuthContext";
 import axiosInstance from "@/utils/axiosInstance";
+import Swal from "sweetalert2";
+import { secondaryAuth } from "@/config/firebase.config";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 const RegisterPage = () => {
-  const { createUser, updateUserProfile, dbUser, loading: authLoading } = useContext(AuthContext);
+  const { updateUserProfile, dbUser, loading: authLoading } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
   const router = useRouter();
@@ -35,6 +41,7 @@ const RegisterPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
   const [preview, setPreview] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!authLoading) {
@@ -62,9 +69,9 @@ const RegisterPage = () => {
       const url = res.data.data.display_url;
       setValue("photoURL", url);
       setPreview(url);
-      toast.success("Image uploaded successfully!");
+      toast.success("Neural asset uploaded!");
     } catch (error) {
-      toast.error("Image upload failed!");
+      toast.error("Upload failed!");
     } finally {
       setIsUploading(false);
     }
@@ -73,12 +80,7 @@ const RegisterPage = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      const result = await createUser(data.email, data.password);
-
-      await updateUserProfile({
-        displayName: data.name,
-        photoURL: data.photoURL || "",
-      });
+      const result = await createUserWithEmailAndPassword(secondaryAuth, data.email, data.password);
 
       const userData = {
         firebaseUid: result.user.uid,
@@ -91,8 +93,21 @@ const RegisterPage = () => {
       const res = await axiosInstance.post("auth/user/create", userData);
 
       if (res.status === 201 || res.status === 200) {
-        toast.success("Identity Created Successfully!");
-        router.push("/my-cluster/dashboard/admin/users");
+        await signOut(secondaryAuth);
+        
+        Swal.fire({
+          title: "Identity Authorized",
+          text: `Neural node for ${data.name} has been successfully integrated into the system.`,
+          icon: "success",
+          background: "#0a0a0a",
+          color: "#fff",
+          confirmButtonColor: "#2563eb",
+          customClass: {
+            popup: "rounded-[2rem] border border-blue-500/20 backdrop-blur-xl",
+          },
+        });
+        reset();
+        setPreview(null);
       }
     } catch (error) {
       toast.error(error.message);
@@ -114,12 +129,21 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-transparent relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-transparent relative overflow-hidden py-10">
+      <div className="w-full max-w-xl mb-6">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-blue-400/60 hover:text-blue-400 transition-all font-black uppercase text-[10px] tracking-[0.3em] group cursor-pointer"
+        >
+          <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+          Back to System
+        </button>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-xl w-full backdrop-blur-xl bg-white/10 border border-white/20 p-8 md:p-10 rounded-[2.5rem] shadow-2xl z-10 my-10"
+        className="max-w-xl w-full backdrop-blur-xl bg-white/10 border border-white/20 p-8 md:p-10 rounded-[2.5rem] shadow-2xl z-10"
       >
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -262,10 +286,17 @@ const RegisterPage = () => {
                       message: "Must include Uppercase, Lowercase, and Number",
                     },
                   })}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white outline-none focus:ring-2 focus:ring-blue-500/30 transition text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-12 py-4 text-white outline-none focus:ring-2 focus:ring-blue-500/30 transition text-sm font-mono"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400/50 hover:text-blue-400 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
               {errors.password && (
                 <p className="text-red-400 text-[10px] mt-1 ml-2 font-bold uppercase tracking-widest leading-relaxed">{errors.password.message}</p>
@@ -279,7 +310,15 @@ const RegisterPage = () => {
             disabled={isSubmitting || isUploading}
             className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 transition-all duration-300 disabled:opacity-50 cursor-pointer"
           >
-            {isSubmitting ? "Generating Node..." : "Authorize Identity"} <ArrowRight className="w-5 h-5" />
+            {isSubmitting ? (
+              <>
+                <Loader2 className="animate-spin" size={20} /> Syncing Node...
+              </>
+            ) : (
+              <>
+                Authorize Identity <ArrowRight className="w-5 h-5" />
+              </>
+            )}
           </motion.button>
         </form>
       </motion.div>
