@@ -2,8 +2,57 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Code2, Globe, Handshake, X } from "lucide-react";
+import { ChartColumnDecreasing, Check, Code2, Globe, Handshake, X } from "lucide-react";
 import StartUsClient from "@/app/(page)/start-us/StartUsClient";
+
+// const plans = [
+//   {
+//     id: "custom",
+//     name: "Custom Web Build",
+//     price: "Custom",
+//     icon: <Code2 />,
+//     desc: "Tailored high-performance websites built precisely to your brand's specifications.",
+//     features: [
+//       "Custom UI/UX Design",
+//       "Next.js & Tailwind CSS",
+//       "Full Responsive Layout",
+//       "Search Engine Optimized",
+//       "Performance Tuning",
+//     ],
+//     color: "#22d3ee",
+//   },
+//   {
+//     id: "managed-subscription",
+//     name: "Managed Subscription",
+//     price: "$5/mo",
+//     icon: <Globe />,
+//     desc: "Complete peace of mind. We provide the domain, hosting, and maintenance.",
+//     features: [
+//       "Domain & Hosting Included",
+//       "Weekly Security Backups",
+//       "24/7 Technical Support",
+//       "Unlimited Content Updates",
+//       "SSL Certificate Included",
+//     ],
+//     color: "#a855f7",
+//     popular: true,
+//   },
+//   {
+//     id: "enterprise",
+//     name: "Enterprise",
+//     price: "Partnership",
+//     icon: <Handshake />,
+//     desc: "Custom high-end solutions or equity-based business partnerships.",
+//     features: [
+//       "Complex MERN Stack Apps",
+//       "Custom 3D Animations",
+//       "Revenue Share Options",
+//       "Priority Development",
+//       "Dedicated Tech Partner",
+//     ],
+//     color: "#4ade80",
+//   },
+// ];
 
 const plans = [
   {
@@ -14,44 +63,66 @@ const plans = [
     desc: "Tailored high-performance websites built precisely to your brand's specifications.",
     features: [
       "Custom UI/UX Design",
-      "Next.js & Tailwind CSS",
+      "Mobile Friendly Website",
       "Full Responsive Layout",
       "Search Engine Optimized",
       "Performance Tuning",
+      "Whatapp & Call-Button"
     ],
     color: "#22d3ee",
   },
   {
     id: "managed-subscription",
-    name: "Managed Subscription",
-    price: "$5/mo",
+    name: "Maintenance-Plane",
+    price: "$8/mo",
     icon: <Globe />,
-    desc: "Complete peace of mind. We provide the domain, hosting, and maintenance.",
+    desc: "Complete peace of mind. We provide the, hosting, and maintenance.",
     features: [
-      "Domain & Hosting Included",
+      "Hosting Included",
       "Weekly Security Backups",
       "24/7 Technical Support",
       "Unlimited Content Updates",
-      "SSL Certificate Included",
+      
     ],
     color: "#a855f7",
     popular: true,
   },
+
+
+
+
   {
     id: "enterprise",
-    name: "Enterprise",
-    price: "Partnership",
+    name: "Startup",
+    price: "Startup Partnership program",
+    icon: <ChartColumnDecreasing />,
+    desc: "Custom high-end solutions or equity-based business partnerships.",
+    features: [
+      "For-Serious Founders With Inovative ideas",
+      "24/7 Technical Support",
+      "Mobile Friendly Website",
+      "Secure & Reliable",
+    ],
+    color: "#40d67c",
+  },
+  {
+    id: "Basic Plan",
+    name: "Basic Plane",
+    price: " ",
     icon: <Handshake />,
     desc: "Custom high-end solutions or equity-based business partnerships.",
     features: [
-      "Complex MERN Stack Apps",
-      "Custom 3D Animations",
-      "Revenue Share Options",
-      "Priority Development",
-      "Dedicated Tech Partner",
+      "Professional Website Design",
+      "Fast Loading & Mobile-Optimized",
+      "Website Built To Convert Buyers",
+      "Secure & Reliable",
+      "Busness Growth Focused",
+      "Premium Support Included"
     ],
-    color: "#4ade80",
+    color: "#4072d6",
   },
+
+
 ];
 
 export default function PricingContent() {
@@ -119,7 +190,7 @@ export default function PricingContent() {
                 ))}
               </ul>
               <div className="w-full py-4 rounded-xl font-bold text-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all">
-                Get Started
+                Apply Now
               </div>
             </div>
           </motion.div>

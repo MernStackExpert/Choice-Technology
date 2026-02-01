@@ -109,6 +109,24 @@ const Sidebar = () => {
         },
       ],
     },
+    {
+      name: "Home Request",
+      icon: <Wallet size={20} />,
+      children: [
+        {
+          name: "Contact Message",
+          path: "/my-cluster/dashboard/admin/home-request/contact-message",
+        },
+        {
+          name: "Start Up",
+          path: "/my-cluster/dashboard/admin/home-request/startup-requests",
+        },
+        {
+          name: "Archive Message",
+          path: "/my-cluster/dashboard/admin/home-request/archive-messages",
+        },
+      ],
+    },
   ];
 
   const menuItems = [
