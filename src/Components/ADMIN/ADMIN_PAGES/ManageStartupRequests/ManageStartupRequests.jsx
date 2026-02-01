@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import Swal from "sweetalert2";
 
 export default function ManageStartupRequests() {
   const [requests, setRequests] = useState([]);
@@ -37,30 +38,72 @@ export default function ManageStartupRequests() {
   }, [fetchRequests]);
 
   const updateStatus = async (id) => {
-    try {
-      setActionLoading(true);
-      const res = await axiosInstance.patch(`/startus/${id}`, { status: "active" });
-      if (res.data) {
-        toast.success("Startup link established: ACTIVE");
-        setRequests(prev => prev.filter(req => req._id !== id));
-        setSelectedReq(null);
+    const result = await Swal.fire({
+      title: "Establish Connection?",
+      text: "Authorize this node and move to active matrix.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#334155",
+      confirmButtonText: "YES, AUTHORIZE",
+      background: "#0a0a0a",
+      color: "#fff"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        setActionLoading(true);
+        const res = await axiosInstance.patch(`/startus/${id}`, { status: "active" });
+        if (res.data) {
+          toast.success("Startup link established: ACTIVE");
+          setRequests(prev => prev.filter(req => req._id !== id));
+          setSelectedReq(null);
+          Swal.fire({
+            title: "Authorized",
+            text: "Node has been successfully integrated.",
+            icon: "success",
+            background: "#0a0a0a",
+            color: "#fff"
+          });
+        }
+      } catch (error) {
+        toast.error("Status update failed");
+      } finally {
+        setActionLoading(false);
       }
-    } catch (error) {
-      toast.error("Status update failed");
-    } finally {
-      setActionLoading(false);
     }
   };
 
   const deleteRequest = async (id) => {
-    try {
-      const res = await axiosInstance.delete(`/startus/${id}`);
-      if (res.data) {
-        toast.success("Request purged from mainframe");
-        setRequests(prev => prev.filter(req => req._id !== id));
+    const result = await Swal.fire({
+      title: "Purge Node?",
+      text: "This action will permanently erase the transmission.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#334155",
+      confirmButtonText: "YES, PURGE",
+      background: "#0a0a0a",
+      color: "#fff"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axiosInstance.delete(`/startus/${id}`);
+        if (res.data) {
+          toast.success("Request purged from mainframe");
+          setRequests(prev => prev.filter(req => req._id !== id));
+          Swal.fire({
+            title: "Deleted",
+            text: "Transmission has been erased.",
+            icon: "success",
+            background: "#0a0a0a",
+            color: "#fff"
+          });
+        }
+      } catch (error) {
+        toast.error("Purge failed");
       }
-    } catch (error) {
-      toast.error("Purge failed");
     }
   };
 
@@ -183,7 +226,7 @@ export default function ManageStartupRequests() {
                   <button 
                     onClick={() => updateStatus(selectedReq._id)}
                     disabled={actionLoading}
-                    className="w-full sm:w-auto px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase text-[10px] rounded-2xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3"
+                    className="w-full sm:w-auto px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase text-[10px] rounded-2xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 cursor-pointer"
                   >
                     {actionLoading ? <Loader2 className="animate-spin" size={16}/> : <ShieldCheck size={16}/>} Establish_Connection
                   </button>

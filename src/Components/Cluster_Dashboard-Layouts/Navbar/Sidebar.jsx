@@ -17,6 +17,7 @@ import {
   FileText,
   ChevronDown,
   UserPlus,
+  ArrowBigLeft,
 } from "lucide-react";
 import { AuthContext } from "@/Provider/AuthContext";
 
@@ -82,6 +83,10 @@ const Sidebar = () => {
           path: "/my-cluster/dashboard/admin/orders/active-nodes",
         },
         {
+          name: "Active Operations",
+          path: "/my-cluster/dashboard/admin/orders/active-operations",
+        },
+        {
           name: "Terminated",
           path: "/my-cluster/dashboard/admin/orders/terminated-nodes",
         },
@@ -135,11 +140,11 @@ const Sidebar = () => {
     {
       name: "Settings",
       icon: <Settings size={20} />,
-      path: "/my-cluster/dashboard/settings",
+      path: "/my-cluster/settings/profile",
     },
     {
       name: "EXIT-HOME",
-      icon: <ArrowLeftFromLine size={20} />,
+      icon: <ArrowBigLeft  size={20} />,
       path: "/my-cluster",
     },
   ];

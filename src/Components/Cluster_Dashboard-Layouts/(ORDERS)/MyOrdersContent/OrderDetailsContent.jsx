@@ -5,9 +5,10 @@ import axiosInstance from "@/utils/axiosInstance";
 import { 
   Package, Calendar, DollarSign, Activity, 
   ShieldCheck, ArrowLeft, Globe, Terminal, 
-  Clock, hourglass, AlertCircle
+  Clock, AlertCircle, CreditCard
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const OrderDetailsContent = ({ orderId }) => {
   const [order, setOrder] = useState(null);
@@ -45,13 +46,25 @@ const OrderDetailsContent = ({ orderId }) => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-20 px-4">
-      <button 
-        onClick={() => router.back()}
-        className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all group cursor-pointer"
-      >
-        <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Return to Cluster</span>
-      </button>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <button 
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all group cursor-pointer"
+        >
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Return to Cluster</span>
+        </button>
+
+        {order.unPaidAmount > 0 && (
+          <Link
+            href={`/my-cluster/dashboard/payment/${order._id}`}
+            className="flex items-center gap-3 px-8 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all active:scale-95"
+          >
+            <CreditCard size={14} />
+            Payment Now
+          </Link>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-6">

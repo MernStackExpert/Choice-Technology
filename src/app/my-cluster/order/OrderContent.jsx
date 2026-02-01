@@ -6,9 +6,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { Loader2 } from "lucide-react";
 
 const OrderContent = () => {
   const { user } = useContext(AuthContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
       planType: "monthly",
@@ -31,6 +33,7 @@ const OrderContent = () => {
   }, [totalAmount]);
 
   const onSubmit = async (data) => {
+    setIsSubmitting(true);
     const orderData = {
       userId: user?.uid,
       userEmail: user?.email,
@@ -61,6 +64,8 @@ const OrderContent = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Critical System Error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -151,10 +156,22 @@ const OrderContent = () => {
 
         <button
           type="submit"
-          className="w-full py-5 bg-transparent border border-cyan-500/40 text-cyan-400 font-bold rounded-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all duration-500 uppercase tracking-[0.4em] text-xs relative group overflow-hidden cursor-pointer"
+          disabled={isSubmitting}
+          className="w-full py-5 bg-transparent border border-cyan-500/40 text-cyan-400 font-bold rounded-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all duration-500 uppercase tracking-[0.4em] text-xs relative group overflow-hidden cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="relative z-10 group-hover:text-black transition-colors duration-300">Initialize Deployment</span>
-          <div className="absolute inset-0 bg-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+          <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center justify-center gap-2">
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Processing Node...
+              </>
+            ) : (
+              "Initialize Deployment"
+            )}
+          </span>
+          {!isSubmitting && (
+            <div className="absolute inset-0 bg-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+          )}
         </button>
       </form>
     </section>

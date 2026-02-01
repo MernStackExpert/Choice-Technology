@@ -16,20 +16,20 @@ const DashNav = () => {
       </div>
 
       <div className="flex-1 lg:flex-none flex justify-end items-center gap-4 md:gap-8">
-        <div className="hidden lg:flex items-center gap-4 bg-white/5 border border-cyan-500/10 px-4 py-2 rounded-lg">
+        {/* <div className="hidden lg:flex items-center gap-4 bg-white/5 border border-cyan-500/10 px-4 py-2 rounded-lg">
           <Search size={16} className="text-cyan-500/50" />
           <input 
             type="text" 
             placeholder="Search Protocol..." 
             className="bg-transparent border-none outline-none text-xs w-48 placeholder:text-gray-600"
           />
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-4">
-          <button className="relative p-2 text-gray-400 hover:text-cyan-400 transition-colors">
+          {/* <button className="relative p-2 text-gray-400 hover:text-cyan-400 transition-colors">
             <Bell size={20} />
             <span className="absolute top-2 right-2 w-2 h-2 bg-cyan-500 rounded-full border border-black"></span>
-          </button>
+          </button> */}
           
           <div className="flex items-center gap-3 pl-4 border-l border-cyan-500/10">
             <div className="text-right hidden sm:block">

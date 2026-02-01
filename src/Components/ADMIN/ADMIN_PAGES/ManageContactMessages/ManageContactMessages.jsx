@@ -5,10 +5,11 @@ import axiosInstance from "@/utils/axiosInstance";
 import { 
   Loader2, Mail, Search, Trash2, Eye, 
   Clock, User, MessageSquare, FilterX, 
-  X, CheckCircle, ShieldCheck
+  X, CheckCircle, ShieldCheck, RefreshCcw
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import Swal from "sweetalert2";
 
 export default function ManageContactMessages() {
   const [messages, setMessages] = useState([]);
@@ -17,16 +18,17 @@ export default function ManageContactMessages() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
 
-  const fetchMessages = useCallback(async () => {
+  const fetchMessages = useCallback(async (isManual = false) => {
     try {
       setLoading(true);
       const res = await axiosInstance.get("/contact");
       if (res.data?.result) {
         const pendingOnly = res.data.result.filter(msg => msg.status === "pending");
         setMessages(pendingOnly);
+        if (isManual) toast.success("Neural signals synchronized");
       }
     } catch (error) {
-      toast.error("Failed to sync neural communications");
+      toast.error("Failed to sync communications");
     } finally {
       setLoading(false);
     }
@@ -37,30 +39,58 @@ export default function ManageContactMessages() {
   }, [fetchMessages]);
 
   const updateStatus = async (id) => {
-    try {
-      setActionLoading(true);
-      const res = await axiosInstance.patch(`/contact/${id}`, { status: "active" });
-      if (res.data) {
-        toast.success("Signal state updated to ACTIVE");
-        setMessages(prev => prev.filter(msg => msg._id !== id));
-        setSelectedMessage(null);
+    const confirm = await Swal.fire({
+      title: "Authorize Resolution?",
+      text: "This signal will be marked as active and resolved.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#374151",
+      confirmButtonText: "YES, AUTHORIZE",
+      background: "#0a0a0a",
+      color: "#fff"
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        setActionLoading(true);
+        const res = await axiosInstance.patch(`/contact/${id}`, { status: "active" });
+        if (res.data) {
+          toast.success("Signal updated to ACTIVE");
+          setMessages(prev => prev.filter(msg => msg._id !== id));
+          setSelectedMessage(null);
+        }
+      } catch (error) {
+        toast.error("Status update failed");
+      } finally {
+        setActionLoading(false);
       }
-    } catch (error) {
-      toast.error("Status update failed");
-    } finally {
-      setActionLoading(false);
     }
   };
 
   const deleteMessage = async (id) => {
-    try {
-      const res = await axiosInstance.delete(`/contact/${id}`);
-      if (res.data) {
-        toast.success("Message purged from database");
-        setMessages(prev => prev.filter(msg => msg._id !== id));
+    const confirm = await Swal.fire({
+      title: "Purge Signal?",
+      text: "This transmission will be permanently erased from the matrix.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#374151",
+      confirmButtonText: "YES, PURGE",
+      background: "#0a0a0a",
+      color: "#fff"
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await axiosInstance.delete(`/contact/${id}`);
+        if (res.data) {
+          toast.success("Message purged from database");
+          setMessages(prev => prev.filter(msg => msg._id !== id));
+        }
+      } catch (error) {
+        toast.error("Deletion failed");
       }
-    } catch (error) {
-      toast.error("Deletion failed");
     }
   };
 
@@ -76,11 +106,21 @@ export default function ManageContactMessages() {
     <div className="p-4 md:p-8 space-y-10 max-w-[1600px] mx-auto relative z-10 text-white pb-20">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 backdrop-blur-md">
-            <Clock size={12} className="text-cyan-500 animate-pulse" />
-            <span className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.3em]">
-              {filteredMessages.length} Pending_Inquiries_Detected
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 backdrop-blur-md">
+              <Clock size={12} className="text-cyan-500 animate-pulse" />
+              <span className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.3em]">
+                {filteredMessages.length} Pending_Inquiries_Detected
+              </span>
+            </div>
+            <button 
+              onClick={() => fetchMessages(true)}
+              disabled={loading}
+              className="p-2 bg-white/5 border border-white/10 rounded-xl hover:bg-cyan-500/10 hover:text-cyan-400 transition-all active:scale-90 disabled:opacity-50 cursor-pointer"
+              title="Sync Signals"
+            >
+              <RefreshCcw size={16} className={`${loading ? 'animate-spin' : ''}`} />
+            </button>
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter">Comm_Link</h2>
         </div>
@@ -212,7 +252,7 @@ export default function ManageContactMessages() {
                   <button
                     onClick={() => updateStatus(selectedMessage._id)}
                     disabled={actionLoading}
-                    className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase text-[10px] rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                    className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase text-[10px] rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 disabled:opacity-50"
                   >
                     {actionLoading ? <Loader2 className="animate-spin" size={14} /> : <ShieldCheck size={14} />} 
                     Authorize_Resolution

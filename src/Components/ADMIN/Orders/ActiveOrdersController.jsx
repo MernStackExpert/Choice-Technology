@@ -24,7 +24,7 @@ export default function ActiveOrdersController() {
         params: {
           page: currentPage,
           limit: 20,
-          email: searchTerm,
+          email: searchTerm.includes("@") ? searchTerm : "",
         }
       });
       
@@ -48,6 +48,18 @@ export default function ActiveOrdersController() {
     return () => clearTimeout(delayDebounceFn);
   }, [fetchActiveOrders]);
 
+  const filteredOrders = useMemo(() => {
+    if (!searchTerm) return orders;
+    
+    return orders.filter((order) => {
+      const byEmail = order.userEmail?.toLowerCase().includes(searchTerm.toLowerCase());
+      const byId = order.orderId?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      const byTitle = order.orderTitle?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return byEmail || byId || byTitle;
+    });
+  }, [orders, searchTerm]);
+
   return (
     <div className="p-4 md:p-8 space-y-10 max-w-[1600px] mx-auto relative z-10">
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8">
@@ -55,7 +67,7 @@ export default function ActiveOrdersController() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 backdrop-blur-md">
             <Zap size={12} className="text-emerald-500 fill-emerald-500 animate-pulse" />
             <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em]">
-              {totalActiveCount} Active_Nodes_Detected
+              {filteredOrders.length} Active_Nodes_Detected
             </span>
           </div>
           <div>
@@ -72,7 +84,7 @@ export default function ActiveOrdersController() {
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-cyan-500 transition-colors" size={16} />
           <input 
             type="text"
-            placeholder="FILTER ACTIVE NODES..."
+            placeholder="FILTER BY ID, EMAIL OR TITLE..."
             className="w-full bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl py-4 pl-14 pr-6 text-[10px] font-bold text-white uppercase tracking-widest focus:outline-none focus:border-cyan-500/40 transition-all shadow-2xl"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -98,7 +110,7 @@ export default function ActiveOrdersController() {
                     <Loader2 className="animate-spin text-cyan-500 mx-auto" size={40} />
                   </td>
                 </tr>
-              ) : orders.map((order) => (
+              ) : filteredOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-white/[0.05] transition-all group">
                   <td className="p-7 font-mono text-cyan-500 text-[11px] font-bold">#{order.orderId}</td>
                   <td className="p-7">
@@ -137,7 +149,7 @@ export default function ActiveOrdersController() {
           </table>
         </div>
         
-        {!loading && orders.length === 0 && (
+        {!loading && filteredOrders.length === 0 && (
           <div className="p-32 text-center flex flex-col items-center gap-4">
              <Activity className="text-gray-800 animate-pulse" size={48} />
              <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.4em]">No active operational nodes found</p>
@@ -145,7 +157,7 @@ export default function ActiveOrdersController() {
         )}
       </div>
 
-      {!loading && orders.length > 0 && (
+      {!loading && filteredOrders.length > 0 && (
         <div className="flex items-center justify-center gap-6 py-6">
           <button 
             disabled={currentPage === 1}

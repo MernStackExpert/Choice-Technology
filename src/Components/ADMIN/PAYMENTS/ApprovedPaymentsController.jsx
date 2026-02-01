@@ -11,6 +11,7 @@ export default function ApprovedPaymentsController() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [syncingId, setSyncingId] = useState(null);
 
   const fetchApprovedRequests = useCallback(async () => {
     try {
@@ -46,6 +47,7 @@ export default function ApprovedPaymentsController() {
 
     if (result.isConfirmed) {
       try {
+        setSyncingId(reqData._id);
         const res = await axiosInstance.patch("/orders/approve-payment", {
           orderId: reqData.orderId,
           amountPaid: reqData.amountPaid
@@ -69,6 +71,8 @@ export default function ApprovedPaymentsController() {
         }
       } catch (error) {
         toast.error(error.response?.data?.message || "Order sync failed");
+      } finally {
+        setSyncingId(null);
       }
     }
   };
@@ -132,10 +136,16 @@ export default function ApprovedPaymentsController() {
                         <Eye size={18} />
                       </Link>
                       <button 
+                        disabled={syncingId === req._id}
                         onClick={() => handleConfirmOrderPayment(req)}
-                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-[10px] rounded-xl transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2"
+                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-[10px] rounded-xl transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed min-w-[140px] justify-center cursor-pointer"
                       >
-                        <ShieldCheck size={14} /> Confirm_Sync
+                        {syncingId === req._id ? (
+                          <Loader2 size={14} className="animate-spin" />
+                        ) : (
+                          <ShieldCheck size={14} />
+                        )}
+                        {syncingId === req._id ? "Syncing..." : "Confirm_Sync"}
                       </button>
                     </div>
                   </td>
