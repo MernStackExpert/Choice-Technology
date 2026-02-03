@@ -8,7 +8,9 @@ export default function PageLayout({ children }) {
         <header>
           <Navbar />
         </header>
-        <main className="flex-grow mt-20 max-w-7xl mx-auto">{children}</main>
+        <main className="flex-grow mt-20 max-w-7xl mx-auto">
+          {children}
+          </main>
         <footer>
           <Footer />
         </footer>

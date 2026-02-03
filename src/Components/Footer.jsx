@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Facebook, Linkedin, Twitter, Github, Mail, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -93,7 +94,7 @@ const Footer = () => {
               <div className="p-2 rounded-lg bg-white/5 border border-white/5">
                 <Mail size={18} className="text-cyan-400" />
               </div>
-              <span className="break-all">hello@choicetech.com</span>
+              <span className="break-all">hellochoicetechnology@gmail.com</span>
             </div>
           </motion.div>
         </motion.div>
@@ -108,8 +109,8 @@ const Footer = () => {
             © {currentYear} Choice Technology. All rights reserved.
           </p>
           <div className="flex space-x-6 text-[10px] md:text-xs text-gray-500">
-            <a href="#" className="hover:text-white transition">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition">Terms of Service</a>
+            <Link href="/policy" className="hover:text-white transition">Privacy Policy</Link>
+            <a href="/policy" className="hover:text-white transition">Terms of Service</a>
           </div>
         </motion.div>
       </div>

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThreeBackground from "@/Components/bg-mouse-effect/ThreeBackground";
+import NeuralContactHub from "@/Shared/NeuralContactHub";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Choice Technology",
   description: "Tech Service Provider",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22none%22 stroke=%22%2306b6d4%22 stroke-width=%228%22 stroke-dasharray=%22220 60%22/><circle cx=%2250%22 cy=%2250%22 r=%2210%22 fill=%22%2306b6d4%22/></svg>",
+    apple: [{ url: "/apple-icon.png" }],
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -31,6 +36,7 @@ export default function RootLayout({ children }) {
           </div>
           <div className="relative z-10 flex flex-col min-h-screen">
             {children}
+            <NeuralContactHub />
           </div>
         </div>
       </body>
