@@ -4,7 +4,7 @@ import AuthProvider from "@/Provider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
-  title: "My Cluster - Choice Technology",
+  title: "My Cluster - Arshe Technology",
   description: "Manage your digital instances and cluster settings.",
 };
 

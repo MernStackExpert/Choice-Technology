@@ -3,8 +3,8 @@ import OrderContent from "./OrderContent";
 
 // Metadata for SEO
 export const metadata = {
-  title: "Initialize Node | Choice Technology",
-  description: "Request a new service node in the Choice Technology ecosystem.",
+  title: "Initialize Node | Arshe Technology",
+  description: "Request a new service node in the Arshe Technology ecosystem.",
 };
 
 export default function OrderPage() {

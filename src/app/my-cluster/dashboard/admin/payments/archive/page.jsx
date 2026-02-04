@@ -1,7 +1,7 @@
 import PaymentArchiveController from "@/Components/ADMIN/PAYMENTS/PaymentArchiveController";
 
 export const metadata = {
-  title: "Financial Archive | Choice Technology",
+  title: "Financial Archive | Arshe Technology",
   description: "Historical record of verified and rejected transactions",
 };
 

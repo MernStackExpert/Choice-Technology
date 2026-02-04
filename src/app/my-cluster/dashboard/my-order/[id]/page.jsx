@@ -4,7 +4,7 @@ import React from "react";
 export async function generateMetadata({ params }) {
   const { id } = await params;
   return {
-    title: `Order Analysis: ${id} | Choice Technology`,
+    title: `Order Analysis: ${id} | Arshe Technology`,
     description:
       "Detailed breakdown of your service node and deployment status.",
   };

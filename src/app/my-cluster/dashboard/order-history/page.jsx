@@ -2,9 +2,14 @@ import OrderHistoryContent from "@/Components/Cluster_Dashboard-Layouts/(ORDERS)
 import React from "react";
 
 export const metadata = {
-  title: "Order History | Choice Technology",
+  title: "Order History | Arshe Technology",
   description: "View your past completed and cancelled service nodes.",
-  keywords: ["Order History", "Completed Projects", "Cancelled Nodes", "Choice Technology"],
+  keywords: [
+    "Order History",
+    "Completed Projects",
+    "Cancelled Nodes",
+    "Arshe Technology",
+  ],
 };
 
 export default function OrderHistoryPage() {

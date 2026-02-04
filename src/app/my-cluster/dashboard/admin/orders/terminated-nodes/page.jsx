@@ -1,7 +1,7 @@
 import TerminatedNodesController from "@/Components/ADMIN/Orders/TerminatedNodesController";
 
 export const metadata = {
-  title: "Archive Vault | Choice Technology",
+  title: "Archive Vault | Arshe Technology",
 };
 
 export default function TerminatedNodesPage() {

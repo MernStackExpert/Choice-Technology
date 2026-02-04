@@ -2,8 +2,9 @@ import ManualPaymentContent from "@/Components/Cluster_Dashboard-Layouts/ManualP
 import React from "react";
 
 export const metadata = {
-  title: "Secure Payment | Choice Technology",
-  description: "Complete your node deployment payment securely through manual verification.",
+  title: "Secure Payment | Arshe Technology",
+  description:
+    "Complete your node deployment payment securely through manual verification.",
 };
 
 export default async function PaymentPage({ params }) {

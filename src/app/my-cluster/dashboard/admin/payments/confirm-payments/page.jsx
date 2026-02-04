@@ -1,7 +1,7 @@
 import ApprovedPaymentsController from "@/Components/ADMIN/PAYMENTS/ApprovedPaymentsController";
 
 export const metadata = {
-  title: "Finalize Sync | Choice Technology",
+  title: "Finalize Sync | Arshe Technology",
   description: "Authorize approved funds into operational nodes",
 };
 

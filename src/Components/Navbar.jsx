@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Home, Wrench, Briefcase, Mail, Zap } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import ArsheBrandLogo from "@/Shared/ArsheBrandLogo";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -52,7 +53,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 w-full z-[100] transition-all duration-500 px-6 py-4",
+        "fixed top-0 left-0 w-full z-[100] transition-all duration-500 py-5 px-4",
         scrolled || isOpen 
           ? "bg-black/40 backdrop-blur-xl border-b border-white/5" 
           : "bg-transparent",
@@ -60,15 +61,16 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" onClick={closeMenu} className="flex items-center gap-3 group relative z-[110]">
-          <div className="relative w-32 h-10 transition-transform duration-300 group-hover:scale-105">
+          {/* <div className="relative w-70 h-20  transition-transform duration-300 group-hover:scale-105">
             <Image
-              src="/choice-logo.png"
-              alt="Choice Tech Logo"
+              src="/main-logo-removebg.png"
+              alt="Logo"
               fill
               className="object-contain"
               priority
             />
-          </div>
+          </div> */}
+          <ArsheBrandLogo/>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

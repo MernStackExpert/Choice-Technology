@@ -1,11 +1,9 @@
-
 import DashNav from "@/Components/Cluster_Dashboard-Layouts/Navbar/DashNav";
 import Sidebar from "@/Components/Cluster_Dashboard-Layouts/Navbar/Sidebar";
 import React from "react";
 
-
 export const metadata = {
-  title: "Dashboard | Choice Technology",
+  title: "Dashboard | Arshe Technology",
 };
 
 export default function DashboardLayout({ children }) {
@@ -19,9 +17,7 @@ export default function DashboardLayout({ children }) {
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-          <div className="w-full h-full">
-            {children}
-          </div>
+          <div className="w-full h-full">{children}</div>
         </main>
       </div>
     </div>

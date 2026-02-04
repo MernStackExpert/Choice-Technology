@@ -2,8 +2,9 @@ import UrgentPaymentContent from "@/Components/Cluster_Dashboard-Layouts/UrgentP
 import React from "react";
 
 export const metadata = {
-  title: "Critical Node Renewals | Choice Technology",
-  description: "Identify and renew service nodes expiring within the next 24 hours to avoid system downtime.",
+  title: "Critical Node Renewals | Arshe Technology",
+  description:
+    "Identify and renew service nodes expiring within the next 24 hours to avoid system downtime.",
 };
 
 export default function UrgentPaymentPage() {

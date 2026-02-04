@@ -1,8 +1,9 @@
 import ServicesClient from "./ServicesClient";
 
 export const metadata = {
-  title: "Premium Services | Choice Technology",
-  description: "Affordable web solutions, from free websites to full premium packages by Choice Technology.",
+  title: "Premium Services | Arshe Technology",
+  description:
+    "Affordable web solutions, from free websites to full premium packages by Arshe Technology.",
 };
 
 export default function ServicesPage() {

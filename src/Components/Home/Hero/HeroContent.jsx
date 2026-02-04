@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import { ArrowDown } from "lucide-react";
 import Link from "next/link";
+import ArsheBrandLogo from "@/Shared/ArsheBrandLogo";
 
 export default function HeroContent() {
   return (
@@ -18,14 +19,16 @@ export default function HeroContent() {
           transition={{ duration: 0.8 }}
           className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6"
         >
-          <div className="relative w-[140px] h-[45px] md:w-[220px] md:h-[70px]">
-            <Image
-              src="/choice-logo.png"
-              alt="Choice Technology"
+          <div className="relative">
+            {/* <Image
+              src="/cover-photo-removebg.png"
+              alt="Arshe Technology"
               fill
               className="object-contain mix-blend-lighten lg:object-left"
               priority
-            />
+            /> */}
+
+            <ArsheBrandLogo />
           </div>
 
           <div className="space-y-4">
@@ -54,7 +57,7 @@ export default function HeroContent() {
             </div>
 
             <p className="text-gray-400 text-xs md:text-lg max-w-xl leading-relaxed font-light">
-              Choice Technology transforms complex business ideas into seamless,
+              Arshe Technology transforms complex business ideas into seamless,
               high-performance user experiences. Specializing in modern web
               architectures.
             </p>
@@ -107,8 +110,8 @@ export default function HeroContent() {
 
             <div className="relative w-full h-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 bg-[#0a0a0a] shadow-2xl">
               <Image
-                src="/choice-bg-img.png"
-                alt="Choice Technology Web Solution"
+                src="/arshe-bg-img.png"
+                alt="Arshe Technology Web Solution"
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-110"
               />

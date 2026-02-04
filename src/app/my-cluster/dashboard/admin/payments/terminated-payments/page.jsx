@@ -1,7 +1,7 @@
 import TerminatedPaymentsController from "@/Components/ADMIN/PAYMENTS/TerminatedPaymentsController";
 
 export const metadata = {
-  title: "Terminated Records | Choice Technology",
+  title: "Terminated Records | Arshe Technology",
 };
 
 export default function TerminatedPaymentsPage() {

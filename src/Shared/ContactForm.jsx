@@ -16,7 +16,7 @@ export default function ContactForm() {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const onSubmit = async (data) => {
@@ -26,7 +26,7 @@ export default function ContactForm() {
 
       if (response.status === 200 || response.status === 201) {
         toast.success(
-          "Message received! The Choice Technology team will respond shortly."
+          "Message received! The Arshe Technology team will respond shortly.",
         );
         reset();
       }
@@ -34,7 +34,7 @@ export default function ContactForm() {
       console.error("Contact Error:", error);
       toast.error(
         error.response?.data?.message ||
-          "Something went wrong. Please try again."
+          "Something went wrong. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
@@ -64,17 +64,17 @@ export default function ContactForm() {
               </label>
               <div className="relative">
                 <User
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.name ? 'text-red-500' : 'text-gray-600'}`}
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.name ? "text-red-500" : "text-gray-600"}`}
                   size={18}
                 />
                 <input
                   type="text"
-                  {...register("name", { 
+                  {...register("name", {
                     required: "Name is required",
-                    minLength: { value: 3, message: "Minimum 3 characters" }
+                    minLength: { value: 3, message: "Minimum 3 characters" },
                   })}
                   placeholder="John Doe"
-                  className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.name ? 'border-red-500/50' : 'border-white/10'} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
+                  className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.name ? "border-red-500/50" : "border-white/10"} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
                 />
               </div>
               {errors.name && (
@@ -90,7 +90,7 @@ export default function ContactForm() {
               </label>
               <div className="relative">
                 <Mail
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.email ? 'text-red-500' : 'text-gray-600'}`}
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.email ? "text-red-500" : "text-gray-600"}`}
                   size={18}
                 />
                 <input
@@ -99,11 +99,11 @@ export default function ContactForm() {
                     required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address"
-                    }
+                      message: "Invalid email address",
+                    },
                   })}
                   placeholder="john@example.com"
-                  className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
+                  className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.email ? "border-red-500/50" : "border-white/10"} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
                 />
               </div>
               {errors.email && (
@@ -120,14 +120,14 @@ export default function ContactForm() {
             </label>
             <div className="relative">
               <BookOpen
-                className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.subject ? 'text-red-500' : 'text-gray-600'}`}
+                className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${errors.subject ? "text-red-500" : "text-gray-600"}`}
                 size={18}
               />
               <input
                 type="text"
                 {...register("subject", { required: "Subject is required" })}
                 placeholder="Project Inquiry"
-                className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.subject ? 'border-red-500/50' : 'border-white/10'} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
+                className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.subject ? "border-red-500/50" : "border-white/10"} rounded-2xl text-white focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-gray-700 text-sm font-medium`}
               />
             </div>
             {errors.subject && (
@@ -143,17 +143,17 @@ export default function ContactForm() {
             </label>
             <div className="relative">
               <MessageSquare
-                className={`absolute left-4 top-5 transition-colors ${errors.message ? 'text-red-500' : 'text-gray-600'}`}
+                className={`absolute left-4 top-5 transition-colors ${errors.message ? "text-red-500" : "text-gray-600"}`}
                 size={18}
               />
               <textarea
                 rows="4"
-                {...register("message", { 
+                {...register("message", {
                   required: "Message is required",
-                  minLength: { value: 10, message: "Minimum 10 characters" }
+                  minLength: { value: 10, message: "Minimum 10 characters" },
                 })}
                 placeholder="Tell us about your project..."
-                className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.message ? 'border-red-500/50' : 'border-white/10'} rounded-2xl text-white focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-700 resize-none text-sm font-medium`}
+                className={`w-full pl-12 pr-6 py-4 bg-white/5 border ${errors.message ? "border-red-500/50" : "border-white/10"} rounded-2xl text-white focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-700 resize-none text-sm font-medium`}
               ></textarea>
             </div>
             {errors.message && (
@@ -168,14 +168,21 @@ export default function ContactForm() {
             disabled={isSubmitting}
             whileHover={!isSubmitting ? { scale: 1.02 } : {}}
             whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-            className={`w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-cyan-500/20 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer group-hover:shadow-cyan-500/40'}`}
+            className={`w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-cyan-500/20 ${isSubmitting ? "opacity-70 cursor-not-allowed" : "cursor-pointer group-hover:shadow-cyan-500/40"}`}
           >
             {isSubmitting ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             )}
-            {isSubmitting ? <span>Sending Message <span className="loading loading-dots loading-xs"></span></span> : "Send Message"}
+            {isSubmitting ? (
+              <span>
+                Sending Message{" "}
+                <span className="loading loading-dots loading-xs"></span>
+              </span>
+            ) : (
+              "Send Message"
+            )}
           </motion.button>
         </form>
       </div>
